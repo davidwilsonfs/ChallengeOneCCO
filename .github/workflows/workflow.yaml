@@ -1,0 +1,21 @@
+name: pipeline-release
+on: [push]
+jobs:
+  react-project:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: User Credentials
+        run: | 
+         git config user.name "GitHub Actions"
+         git config user.email "actions@users.noreply.github.com"
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install Dependencies
+        run: npm install
+      - name: Build App
+        run: npm run build
+      - name: Deploy App
+        if: success()
+        run: sudo npm run deploy -- -r "https://x-access-token:${{ secrets.github_token }}@github.com/${GITHUB_REPOSITORY}.git"
