@@ -15,7 +15,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Build App
-        run: npm run build
+        run: cross-env PUBLIC_URL="https://davidwilsonfs.github.io/ChallengeOneCCO/" && npm run build
       - name: Deploy App
         if: success()
         run: sudo npm run deploy -- -r "https://x-access-token:${{ secrets.github_token }}@github.com/${GITHUB_REPOSITORY}.git"
